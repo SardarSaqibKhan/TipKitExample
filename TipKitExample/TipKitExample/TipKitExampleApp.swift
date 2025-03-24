@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 @main
 struct TipKitExampleApp: App {
@@ -13,5 +14,21 @@ struct TipKitExampleApp: App {
         WindowGroup {
             ContentView()
         }
+    }
+    init() {
+        do {
+            try setupTips()
+        } catch {
+            print("Error initializing tips: \(error)")
+        }
+    }
+
+   
+    private func setupTips() throws {
+        // Purge all TipKit-related data.
+        try Tips.resetDatastore()
+
+        // Configure and load all tips in the app.
+        try Tips.configure()
     }
 }

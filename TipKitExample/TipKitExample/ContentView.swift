@@ -6,19 +6,57 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                Section {
+                    ForEach(TipTypes.allCases, id: \.self) { type in
+                        NavigationLink(type.title) {
+                            type.destination
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .navigationTitle("Tip Types")
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+
+enum TipTypes: CaseIterable, Hashable {
+    
+    case inline
+    case popover
+    case action
+    
+    var title : String {
+        switch self {
+        case .inline:
+            "Inline Tipkit"
+        case .popover:
+            "Popover Tipkit"
+        case .action:
+            "Action Tipkit"
+        }
+    }
+    
+    @ViewBuilder
+    var destination: some View {
+        switch self {
+        case .inline:
+            InlineView()
+        case .popover:
+            PopoverView()
+        case .action:
+            PasswordResetView()
+        }
+    }
+}
+
